@@ -96,6 +96,33 @@ module microusb(dim=[6, 10, 6]) {
     }
 }
 
+module usb_c(dim=[10, 10, 4]) {
+    jack_dim = [10, 10, 4];
+    l = jack_dim[0];
+    w = jack_dim[1];
+    h = jack_dim[2];
+    microusb_polygon_pos = [[2, h], [w-2, h], [w, h-2],
+                            [w-2, 0], [2, 0], [0, h-2]];
+    p_w = dim[1];
+    p_h = dim[2];
+    rotate([0, 0, 180]) translate(jack_dim * -.5) { // XXX
+        color(c_metal) {
+            rotate([90, 0, 90]) {
+                linear_extrude(height=l-1) {
+                    difference() {
+                        polygon(microusb_polygon_pos);
+                        offset(r=-1)
+                            polygon(microusb_polygon_pos);
+                    }
+                }
+            }
+        }
+        color(c_black)
+            translate([1.5, (w-4)/2, h-dim[2]/2])
+                cube([l-2.5, 4, .5]);
+    }
+}
+
 module miniusb(dim=[7.1, 8, 4]) {
     // TODO: merge with microusb (XXX: HDMI?)
     l = dim[0];
@@ -134,10 +161,12 @@ function usb_info() = [
 function usbx2_info()    = usb_info();
 function microusb_info() = usb_info();
 function miniusb_info()  = usb_info();
+function usb_c_info()  = usb_info();
 
 components_demo(pad=40) {
     usb();
     usbx2();
     microusb();
     miniusb();
+    usb_c();
 }

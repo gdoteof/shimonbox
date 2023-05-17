@@ -21,6 +21,7 @@ use <boards/cubieboard.scad>
 use <boards/hikey.scad>
 use <boards/nanopi_neo2.scad>
 use <boards/orangepi_zero.scad>
+use <boards/orangepi_five.scad>
 use <boards/rpi3.scad>
 use <boards/wemos_esp8266.scad>
 
@@ -30,6 +31,7 @@ boards = [
     ["hikey",           hikey_info()],
     ["nanopi_neo2",     nanopi_neo2_info()],
     ["orangepi_zero",   orangepi_zero_info()],
+    ["orangepi_five",   orangepi_five_info()],
     ["rpi3",            raspberry_pi_3_info()],
     ["wemos_esp8266",   wemos_esp8266_info()],
 ];
@@ -41,6 +43,7 @@ module boards_get_plate_2d(id) {
         hikey_plate_2d();
         nanopi_neo2_plate_2d();
         orangepi_zero_plate_2d();
+        orangepi_five_plate_2d();
         raspberry_pi_3_plate_2d();
         wemos_esp8266_plate_2d();
     }
@@ -53,6 +56,7 @@ module boards_get_board(id) {
         hikey();
         nanopi_neo2();
         orangepi_zero();
+        orangepi_five();
         raspberry_pi_3();
         wemos_esp8266();
     }
