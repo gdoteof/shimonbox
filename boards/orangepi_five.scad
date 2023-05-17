@@ -25,7 +25,7 @@ use <../electronics/sd.scad>
 use <../electronics/usb.scad>
 
 
-board_dim = [100, 61.5, 1.25];
+board_dim = [100, 62, 1.25];
 
 m2_screw_x_inset = 26;
 m2_screw_y_inset = 12;
@@ -34,7 +34,7 @@ m2_screw_y_inset = 12;
 /* Plate holes */
 hole_d = 3;
 hole_orig = [board_dim[0], board_dim[1]] * -.5;
-ring_off = 6.2 - hole_d;
+ring_off = 5 - hole_d;
 hole_pad = 3.5;
 
 holes_pos = [
@@ -50,17 +50,20 @@ holes_pos = [
 ];
 
 /* Components bounding box dimensions */
-ethernet_dim    = [   21, 16, 14.5];
-hdmi_dim        = [ 11.5, 15,  6.5];
-jack_dim        = [ 14.5,  7,    6];
 microsdcard_dim = [   15, 11,    1];
-microsdslot_dim = [ 11.5, 12, 1.25];
-usb_c_dim    =    [10,  10,    4.5];
-gpio_dim        = [   32,  5,  8.5];
-debug_dim        =[   6,  5,  8.5];
+microsdslot_dim = [ 15, 15, 1.25];
+gpio_dim        = [   33,  5,  10.9];
+debug_dim        =[   7.3,  2.5,  8.5];
+usbx2_dim       = [17.5, 13, 15.8];
+ethernet_dim    = [   21, 16, 13.8];
+usbx1_dim       = [13.6, 16.5, 6];
+cam_dim       = [9, 3, 1.3];
+lcd_dim       = [19.5, 6, 2.1];
+m2_dim       = [9, 3, 2];
+hdmi_dim        = [ 11.5, 15,  6.1];
+jack_dim        = [ 14.5,  6,    5.2];
+usb_c_dim    =    [10,  10,    3.3];
 serialcon_dim   = [  2.5, 22,  5.5];
-usbx1_dim       = [15, 5, 16.5];
-usbx2_dim       = [17.25, 15, 16.5];
 
 ethusb_dim      = [17.25, 3.25, 13.5]; // cleanup box
 usbusb_dim      = [17.25,    3, 16.5]; // cleanup box
@@ -73,17 +76,21 @@ module orangepi_five_plate_2d() {
 comp_info = [
     /* info function        box dimensions   comp-corner rotate  board-corner    position  */
 
-    [ethernet_info(),       ethernet_dim,    [ 1, 0,-1], [0,0,0], [ 1,-1, 1], [   2,   24,   0]],
-    [hdmi_info(),           hdmi_dim,        [ 1, 0,-1], [0,0,3], [-1,-1, 1], [  36,   -1,   0]],
-    [jack_info(),           jack_dim,        [ 1, 0,-1], [0,0,3], [-1,-1, 1], [  21,   -2,   0]],
     [microsdcard_info(),    microsdslot_dim, [ 1, 0,-1], [0,0,2], [-1, 1, 1], [   0,  -14,   0]],
     [microsdslot_info(),    microsdslot_dim, [ 1, 0,-1], [0,0,2], [-1, 1, 1], [   0,  -14,   0]],
-    [usb_c_info(),       usb_c_dim,       [ 1, 0,-1], [0,0,3], [-1,-1, 1], [   12,   -2,   0]],
-    [pin_header_info(),     gpio_dim,        [ 0, 0,-1], [0,0,0], [-1, 1, 1], [25, -3,0]],
-    [pin_header_info(),  debug_dim,          [ 0, 0,-1], [0,0,0], [-1, 1, 1], [   47, -2,0]], // camera
-    [usb_info(),          usbx1_dim,         [ 1, 0,-1], [0,0,0], [ 1,-1, 1], [    2,  10,0]],
-    [usbx2_info(),          usbx2_dim,       [ 1, 0,-1], [0,0,0], [ 1,-1, 1], [    2,  45,-1]],
+    [pin_header_info(),     gpio_dim,        [ 0, 0,-1], [0,0,0], [-1, 1, 1], [  10.9 + gpio_dim[0]/2, -3,0]],
+    [pin_header_info(),  debug_dim,          [ 0, 0,-1], [0,0,0], [-1, 1, 1], [   49  + debug_dim[0]/2, -2,0]], // camera
+    [usbx2_info(),          usbx2_dim,       [ 1, 0,-1], [0,0,0], [ 1,-1, 1], [    2,  62 - 8.3 - usbx2_dim[1]/2 ,-1]],
+    [ethernet_info(),       ethernet_dim,    [ 1, 0,-1], [0,0,0], [ 1,-1, 1], [   2,   62 - 26.4 - ethernet_dim[1]/2 ,   0]],
+    [usb_info(),          usbx1_dim,         [ 1, 0,-1], [1,0,0], [ 1,-1, 1], [    2,  8 + usbx1_dim[2], + usbx1_dim[0]/2]],
+    [unknown_info(),        cam_dim,          [ 1, 0,-1], [0,0,0], [1,-1, 1], [    -7, 1 + cam_dim[1]/2,0]],
+    [unknown_info(),        lcd_dim,          [ 1, 0,-1], [0,0,0], [1,-1, 1], [    -18, lcd_dim[1]/2,0]],
+    [usb_c_info(),       usb_c_dim,       [ 1, 0,-1], [0,0,3], [-1,-1, 1], [   50.5 + usb_c_dim[0]/2,   -2,   0]],
+    [hdmi_info(),           hdmi_dim,        [ 1, 0,-1], [0,0,3], [ -1,-1, 1], [  30 + hdmi_dim[0],   -1,   0]],
+    [jack_info(),           jack_dim,        [ 1, 0,-1], [0,0,3], [-1,-1, 1], [  19 + jack_dim[0]/2,   -2,   0]],
+    [usb_c_info(),       usb_c_dim,       [ 1, 0,-1], [0,0,3], [-1,-1, 1], [   6.8 + usb_c_dim[0]/2,   -2,   0]],
     /*
+    [unknown_info(),        m2_dim,          [ 1, 0,-1], [1,0,0], [ 1,-1, 1], [    97,-1,0]],
     [usbx2_info(),          usbx2_dim,       [ 1, 0,-1], [0,0,0], [ 1,-1, 1], [    2,  47,0]],
 
     [unknown_info(),        ethusb_dim,      [ 1, 0,-1], [0,0,0], [ 1,-1, 1], [    2,19.875,0]],
@@ -96,17 +103,21 @@ module orangepi_five() {
        orangepi_five_plate_2d();
 
     set_components(board_dim, comp_info) {
-        ethernet(dim=ethernet_dim, swap_led=true);
-        hdmi(dim=hdmi_dim);
-        jack(dim=jack_dim);
         microsdcard(dim=microsdcard_dim);
         microsdslot(dim=microsdslot_dim);
-        usb_c(dim=usb_c_dim);
         pin_header_pitch254(dim=gpio_dim, n=13, m=2);
         pin_header_pitch254(dim=debug_dim, n=3, m=1);
-        usb(dim=usbx1_dim);
         usbx2(dim=usbx2_dim);
+        ethernet(dim=ethernet_dim, swap_led=true);
+        usb(dim=usbx1_dim);
+        %cube(cam_dim, center=true);
+        %cube(lcd_dim, center=true);
+        usb_c(dim=usb_c_dim);
+        hdmi(dim=hdmi_dim);
+        jack(dim=jack_dim);
+        usb_c(dim=usb_c_dim);
         /*
+        %cube(ethusb_dim, center=true);
         usbx2(dim=usbx2_dim);
 
         %cube(ethusb_dim, center=true);

@@ -30,8 +30,8 @@ vents = [
 ];
 
 cfg = [
-    ["min_z", 4],
-    ["max_z", 7],
+    ["min_z", 5],
+    ["max_z", 9],
     ["vents", vents],
 ];
 
